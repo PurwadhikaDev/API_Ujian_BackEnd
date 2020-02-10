@@ -2,8 +2,10 @@ const { sqlDB } = require('../databases')
 
 module.exports = {
     getAllCategory: (req,res) => {
-        const query = `SELECT * 
-            FROM category_complete;`
+        const query = `select c.id, c.category as categorychild, c.parentId, ca.category as categoryparent
+        from categories c
+        left join categories ca
+        on c.parentId = ca.id;`
         
         sqlDB.query(query, (err, results) => {
             if (err) {
